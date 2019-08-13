@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/Player/Player.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Spear/Spear.tscn" type="PackedScene" id=2]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
+rough = true
+bounce = -800.0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 31.972, 32.058 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0.5, 0.7376 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+width = 64
+curve = SubResource( 3 )
+
+[sub_resource type="CurveTexture" id=5]
+
+[node name="Player" type="RigidBody2D"]
+show_behind_parent = true
+rotation = 1.57079
+z_as_relative = false
+collision_layer = 3
+collision_mask = 5
+physics_material_override = SubResource( 1 )
+gravity_scale = 8.0
+contacts_reported = 1
+contact_monitor = true
+linear_damp = 52.0
+script = ExtResource( 1 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+rotation = -1.57079
+node_a = NodePath("..")
+node_b = NodePath("../Spear")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+rotation = -1.57079
+shape = SubResource( 2 )
+
+[node name="body" type="Sprite" parent="."]
+rotation = -1.57079
+texture = SubResource( 4 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 64 )
+
+[node name="this_side_up" type="Sprite" parent="."]
+position = Vector2( -24.527, -0.000153892 )
+rotation = -1.57079
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 50, 5 )
+
+[node name="Spear" parent="." instance=ExtResource( 2 )]
+rotation = -1.57079
+[connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]

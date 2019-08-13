@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CircleShape2D" id=1]
+
+[node name="Chain" type="Node2D"]
+
+[node name="Tip" type="Area2D" parent="."]
+editor/display_folded = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tip"]
+shape = SubResource( 1 )
+
+[node name="Tip2" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 0, 50 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tip2"]
+shape = SubResource( 1 )
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="."]
+node_a = NodePath("../Tip")
+node_b = NodePath("../Tip2")
+
+[node name="Position2D" type="Position2D" parent="."]

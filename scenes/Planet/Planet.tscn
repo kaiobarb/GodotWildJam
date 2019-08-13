@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 583.522
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 99.7582
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+uniform float PI = 3.1415926535897932384626433832795;
+
+float dist(float x1, float y1, float x2, float y2) {
+	return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+}
+
+void fragment(){
+	if(dist(UV.x, UV.y, 0.5, float(0.5)) < 0.5){
+		COLOR = texture(TEXTURE, UV);
+	} else {
+		COLOR = vec4(0.0);
+	}
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/PI = 3.14159
+
+[sub_resource type="OpenSimplexNoise" id=5]
+seed = 7
+octaves = 6
+period = 20.0
+persistence = 0.73
+lacunarity = 3.7
+
+[sub_resource type="NoiseTexture" id=6]
+width = 170
+height = 170
+noise = SubResource( 5 )
+
+[node name="Planet" type="RigidBody2D"]
+collision_layer = 5
+collision_mask = 3
+mode = 1
+mass = 666.0
+
+[node name="Area2D" type="Area2D" parent="."]
+space_override = 3
+gravity_point = true
+gravity_vec = Vector2( 0, 0 )
+gravity = 1024.0
+linear_damp = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.372467, -0.483459 )
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( -0.372467, -0.483459 )
+scale = Vector2( 1.19118, 1.19118 )
+texture = SubResource( 6 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
