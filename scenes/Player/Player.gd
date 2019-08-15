@@ -1,15 +1,23 @@
 extends RigidBody2D
 
 onready var planet_position = get_parent().find_node("Planet").get_global_position()
+var spear_scn = preload("res://scenes/Spear/Spear.tscn")
+var spear
 var MAX_SPEED = 570.0
 var lateral_speed = 124.0
-var jump_strength = 7000
+var jump_strength = 5000
 var damp
 var jumping = false
 
 func _ready():
 	damp = linear_damp
+#	spear = spear_scn.instance()
+#	spear.position = get_global_position()
+#	get_parent().call_deferred("add_child", spear)
+#	$PinJoint2D.node_b = "../Spear"
+#	print($PinJoint2D.node_b)
 
+	
 func _integrate_forces(state):
 	look_at(planet_position)
 	if(Input.is_action_just_pressed("ui_jump")):

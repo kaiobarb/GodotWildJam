@@ -28,6 +28,7 @@ collision_layer = 3
 collision_mask = 5
 physics_material_override = SubResource( 1 )
 gravity_scale = 8.0
+continuous_cd = 1
 contacts_reported = 1
 contact_monitor = true
 linear_damp = 52.0
@@ -37,9 +38,9 @@ script = ExtResource( 1 )
 rotation = -1.57079
 node_a = NodePath("..")
 node_b = NodePath("../Spear")
+softness = 1.6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 rotation = -1.57079
 shape = SubResource( 2 )
 
@@ -57,5 +58,11 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 50, 5 )
 
 [node name="Spear" parent="." instance=ExtResource( 2 )]
-rotation = -1.57079
+
+[node name="Camera2D" type="Camera2D" parent="."]
+rotation = -1.5708
+rotating = true
+current = true
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
