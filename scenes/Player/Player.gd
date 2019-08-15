@@ -1,6 +1,7 @@
 extends RigidBody2D
 
-onready var planet_position = get_parent().find_node("Planet").get_global_position()
+#onready var planet_position = get_parent().find_node("Planet").get_global_position()
+var planet_position = Vector2(0,0)
 var spear_scn = preload("res://scenes/Spear/Spear.tscn")
 var spear
 var MAX_SPEED = 570.0
@@ -54,7 +55,6 @@ func get_perpendicular(var A):
 
 func _on_Player_body_entered(body):
 	linear_damp = 0
-	
 
 func _on_Timer_timeout():
 	$Timer.stop()
@@ -63,4 +63,3 @@ func _on_Timer_timeout():
 	spear.position = Vector2(0,0)
 	$PinJoint2D.set_node_b(spear.name)
 	add_child(spear)
-	

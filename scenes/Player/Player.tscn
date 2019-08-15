@@ -58,6 +58,7 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 50, 5 )
 
 [node name="Spear" parent="." instance=ExtResource( 2 )]
+contacts_reported = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 rotation = -1.5708

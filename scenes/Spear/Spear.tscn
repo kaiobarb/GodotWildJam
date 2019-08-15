@@ -11,7 +11,8 @@ b = Vector2( 62, 0 )
 collision_layer = 17
 collision_mask = 5
 gravity_scale = 0.0
-contacts_reported = 1
+continuous_cd = 1
+contacts_reported = 2
 contact_monitor = true
 script = ExtResource( 1 )
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://scenes/Planet/particle.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Planet/GravityField.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Planet/particle.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 400, 400 )
@@ -38,7 +39,6 @@ hue_variation_random = 1.0
 [sub_resource type="Shader" id=7]
 code = "shader_type canvas_item;
 render_mode blend_mix;
-uniform float PI = 3.1415926535897932384626433832795;
 
 float dist(float x1, float y1, float x2, float y2) {
 	return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
@@ -55,7 +55,6 @@ void fragment(){
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 7 )
-shader_param/PI = 3.14159
 
 [sub_resource type="OpenSimplexNoise" id=9]
 seed = 7
@@ -75,15 +74,22 @@ collision_mask = 3
 mode = 1
 mass = 666.0
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="GravityField" type="Area2D" parent="."]
+editor/display_folded = true
 space_override = 3
 gravity_point = true
 gravity_vec = Vector2( 0, 0 )
 gravity = 1024.0
 linear_damp = 0.0
+collision_layer = 9
+collision_mask = 3
+script = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField"]
 shape = SubResource( 1 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+node_a = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.372467, -0.483459 )
@@ -95,12 +101,11 @@ amount = 60
 lifetime = 1.6
 randomness = 0.36
 process_material = SubResource( 6 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 8 )
 position = Vector2( -0.372467, -0.483459 )
 scale = Vector2( 1.19118, 1.19118 )
 texture = SubResource( 10 )
-
-[node name="PinJoint2D" type="PinJoint2D" parent="."]
+[connection signal="body_entered" from="GravityField" to="GravityField" method="_on_GravityField_body_entered"]
