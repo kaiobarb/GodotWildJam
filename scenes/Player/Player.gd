@@ -11,11 +11,6 @@ var jumping = false
 
 func _ready():
 	damp = linear_damp
-#	spear = spear_scn.instance()
-#	spear.position = get_global_position()
-#	get_parent().call_deferred("add_child", spear)
-#	$PinJoint2D.node_b = "../Spear"
-#	print($PinJoint2D.node_b)
 
 	
 func _integrate_forces(state):
@@ -41,6 +36,8 @@ func _integrate_forces(state):
 	
 func _process(delta):
 	vector_to_planet()
+	if(Input.is_action_just_pressed("right_click")):
+		$Timer.start()
 
 func vector_to_planet():
 	var player_position = get_global_position()
@@ -57,3 +54,13 @@ func get_perpendicular(var A):
 
 func _on_Player_body_entered(body):
 	linear_damp = 0
+	
+
+func _on_Timer_timeout():
+	$Timer.stop()
+	spear = spear_scn.instance()
+	spear.name = "Spear_" + String(spear.get_instance_id())
+	spear.position = Vector2(0,0)
+	$PinJoint2D.set_node_b(spear.name)
+	add_child(spear)
+	
